@@ -8,15 +8,24 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <script>
+        if (location.protocol !== 'https:') {
+            location.href = 'https://' + location.host + location.pathname + location.search + location.hash;
+        }
+    </script>
 </head>
 <body>
 <!--<nav><h1>CDN</h1></nav> -->
 
 <p>
-<label for="fileLink">Enter a file link:</label>
+<label for="fileLink">Upload a file or enter a link:</label>
     <br>
+
+    <!-- file type acceptance is redundant, but works 100% of time here sooo -->
+<input type="file" id="fileUpload" accept="image/*, video/*" />
 <input type="text" id="fileLink" size=100 />
     <br>
+
 <button id="cdnBtn">Upload</button>
 </p>
 
