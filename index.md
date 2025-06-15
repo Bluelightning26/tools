@@ -13,7 +13,7 @@ List of tools to make: (many will be fetching data from APIs and be live)
 - [ ] conversion rates ($, €, etc.)
 - [ ] time zones (inc daylight savings time)
 - [ ] unit conversion (length, weight, volume, etc.)
-- [ ] cdn adder
+- [ x ] cdn adder
     - creates custom temp link for a file my server, uploads to hc cdn-> deletes from mine
 - [ ] file converter (maybe?)
 - [ ] file compressor (maybe?)

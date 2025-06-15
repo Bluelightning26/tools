@@ -1,7 +1,7 @@
 .noto-sans {
     font-family: "Noto Sans", sans-serif;
     font-optical-sizing: auto;
-    font-weight: 700;
+    font-weight: 1000;
     font-style: normal;
     font-variation-settings: "width" 100;
 }
@@ -11,8 +11,25 @@
     padding: 0;
     box-sizing: border-box;
     font-family: "Noto Sans", sans-serif;
+    background: beige;
+}
+
+body {
+    background: beige;
+    color: #333;
+    line-height: 1.6;
+    padding: 20px;
+}
+
+h1, h2, h3 {
+    font-weight: 700;
+    margin-bottom: 10px;
 }
 
 p {
-    font-family: "Noto Sans", sans-serif;
+    margin-bottom: 15px;
+}
+a {
+    color: #007bff;
+    text-decoration: none;
 }
