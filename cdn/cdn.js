@@ -88,11 +88,12 @@ document.getElementById('cdnBtn').onclick = async function() {
     btn.disabled = true;
 
     // val input url
-    if (!file && (!userLink || !isValidUrl(userLink))) {
-        const errorMsg = 'Please provide a valid link or select a file.';
-        errorDiv.textContent = errorMsg;
-        btn.disabled = false;
-        return;
+    if (!file) {
+        if (!userLink || !isValidUrl(userLink)) {
+            errorDiv.textContent = 'Please provide a valid link or select a file.';
+            btn.disabled = false;
+            return;
+        }
     }
 
     let linkToUse = userLink;
@@ -115,6 +116,7 @@ document.getElementById('cdnBtn').onclick = async function() {
             return;
         }
     }
+
 
     
     
