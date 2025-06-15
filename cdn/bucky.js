@@ -3,7 +3,7 @@ window.buckyUpload = async function(file) {
     formData.append('file', file);
 
     // Use a public CORS proxy
-    const buckyUrl = 'https://cors-anywhere.herokuapp.com/https://bucky.hackclub.com';
+    const buckyUrl = 'https://bucky.hackclub.com';
 
     const response = await fetch(buckyUrl, {
         method: 'POST',
