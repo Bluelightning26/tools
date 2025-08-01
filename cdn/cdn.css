@@ -94,7 +94,8 @@ header h1 {
     flex-direction: column;
     gap: 20px;
     min-width: 450px;
-    align-items: stretch; /* Add this to ensure children fill width */
+    max-width: 450px; /* Add maximum width to prevent expansion */
+    align-items: stretch;
 }
 
 .option-group {
@@ -223,6 +224,7 @@ input[type="url"]::placeholder {
     margin: 20px;
     box-sizing: border-box;
     overflow-y: auto;
+    overflow-x: hidden; /* Prevent horizontal overflow */
 }
 
 .upload-btn {
@@ -306,6 +308,9 @@ input[type="url"]::placeholder {
     padding: 20px;
     margin: 15px 0;
     word-break: break-all;
+    overflow-wrap: break-word;
+    max-width: 100%;
+    box-sizing: border-box;
 }
 
 .link-box a {
