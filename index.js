@@ -18,6 +18,15 @@ app.post('/api/upload', upload.single('file'), async (req, res) => {
             return res.status(400).json({ error: 'No file provided' });
         }
 
+// cdn routes to handle relative path issues
+        app.get('/cdn/styles.css', (req, res) => {
+            res.sendFile(path.join(__dirname, 'styles.css'));
+        });
+
+        app.get('/cdn/cdn.css', (req, res) => {
+            res.sendFile(path.join(__dirname, 'cdn', 'cdn.css'));
+        });
+
         const formData = new FormData();
         formData.append('file', req.file.buffer, {
             filename: req.file.originalname,
