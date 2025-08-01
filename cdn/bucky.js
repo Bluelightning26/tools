@@ -1,23 +1,14 @@
-// cdn/bucky.js
+// Simple client-side file to data URL converter
 window.buckyUpload = async function(file) {
-    const formData = new FormData();
-    formData.append('file', file);
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
 
-    // Use a public CORS proxy
-    const buckyUrl = 'https://bucky.hackclub.com';
-    const corsProxy = 'https://cors-anywhere.herokuapp.com/'
-    const response = await fetch(corsProxy + buckyUrl, {
-        method: 'POST',
-        body: formData
+        reader.onload = function(e) {
+            // Convert to data URL (base64) that can be sent to APIs
+            resolve(e.target.result);
+        };
+
+        reader.onerror = () => reject(new Error('Failed to read file'));
+        reader.readAsDataURL(file); // Changed from readAsArrayBuffer to readAsDataURL
     });
-
-    if (!response.ok) throw new Error(`Bucky upload failed: ${response.status}`);
-
-    const result = await response.text();
-    try {
-        new URL(result);
-        return result;
-    } catch {
-        throw new Error('No valid URL returned from Bucky');
-    }
 };

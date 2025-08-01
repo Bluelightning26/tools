@@ -1,2 +1,3 @@
 .env
 cdn/.env
+node_modules
