@@ -12,7 +12,7 @@
 <body>
 <div class="container">
     <header>
-        <h1>📁 CDN Upload Tool</h1>
+        <h1>CDN Upload Tool</h1>
         <p class="subtitle">Upload files or URLs to the Hack Club CDN</p>
     </header>
 
@@ -26,20 +26,32 @@
                         <div class="upload-prompt">
                             <span class="upload-icon">📤</span>
                             <span class="upload-text">
-                                    Click to select a file<br>
-                                    <small>or drag and drop here</small>
-                                </span>
+                            Click to select a file<br>
+                            <small>or drag and drop here</small>
+                        </span>
                         </div>
                     </div>
-                    <small class="file-info">Supports images and videos</small>
+                    <small class="file-info">Supports a plethora of file types</small>
+                </div>
+
+
+                <button id="cdnBtn" class="upload-btn">
+                    <span class="btn-text">Upload to CDN</span>
+                    <span class="btn-icon">🚀</span>
+                </button>
+
+                <div id="progress" class="progress-bar" style="display: none;">
+                    <div class="progress-fill"></div>
                 </div>
             </div>
 
             <div class="upload-column">
                 <div class="option-group">
                     <h3>🔗 Upload from URL</h3>
-                    <input type="url" id="fileLink" placeholder="https://example.com/image.jpg" />
-                    <small class="url-info">Enter a direct link to a file</small>
+                    <div class="url-input-section">
+                        <input type="url" id="fileLink" placeholder="https://example.com/image.jpg" />
+                        <small class="url-info">Enter a direct link to a file</small>
+                    </div>
                 </div>
 
                 <div class="results-section">
@@ -49,15 +61,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-
-        <button id="cdnBtn" class="upload-btn">
-            <span class="btn-text">Upload to CDN</span>
-            <span class="btn-icon">🚀</span>
-        </button>
-
-        <div id="progress" class="progress-bar" style="display: none;">
-            <div class="progress-fill"></div>
         </div>
     </main>
 
