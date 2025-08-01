@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>CDN</title>
+    <title>CDN Upload Tool</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="cdn.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -10,28 +10,62 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 </head>
 <body>
-<!--<nav><h1>CDN </h1></nav> -->
+<div class="container">
+    <header>
+        <h1>📁 CDN Upload Tool</h1>
+        <p class="subtitle">Upload files or URLs to the Hack Club CDN</p>
+    </header>
 
-<p>
-    <label for="fileLink">Upload a file or enter a link:</label>
-    <br>
+    <main class="upload-section">
+        <div class="upload-grid">
+            <div class="upload-column">
+                <div class="option-group">
+                    <h3>📎 Upload File</h3>
+                    <div class="file-upload-area" id="fileDropArea">
+                        <input type="file" id="fileUpload" accept="image/*, video/*" />
+                        <div class="upload-prompt">
+                            <span class="upload-icon">📤</span>
+                            <span class="upload-text">
+                                    Click to select a file<br>
+                                    <small>or drag and drop here</small>
+                                </span>
+                        </div>
+                    </div>
+                    <small class="file-info">Supports images and videos</small>
+                </div>
+            </div>
 
-    <!-- file type acceptance is redundant, but works 100% of time here sooo -->
-    <input type="file" id="fileUpload" accept="image/*, video/*" />
-    <input type="text" id="fileLink" size=100 />
-    <br>
+            <div class="upload-column">
+                <div class="option-group">
+                    <h3>🔗 Upload from URL</h3>
+                    <input type="url" id="fileLink" placeholder="https://example.com/image.jpg" />
+                    <small class="url-info">Enter a direct link to a file</small>
+                </div>
 
-    <button id="cdnBtn">Upload</button>
-</p>
+                <div class="results-section">
+                    <div id="results">
+                        <div id="error" class="message error-message"></div>
+                        <div id="success" class="message success-message"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-<div id="error"></div>
-<div id="success"></div>
+        <button id="cdnBtn" class="upload-btn">
+            <span class="btn-text">Upload to CDN</span>
+            <span class="btn-icon">🚀</span>
+        </button>
+
+        <div id="progress" class="progress-bar" style="display: none;">
+            <div class="progress-fill"></div>
+        </div>
+    </main>
+
+    <footer>
+        <a href="/" class="back-link">← Back to Tools</a>
+    </footer>
+</div>
 
 <script src="cdn.js"></script>
-
-<footer>
-    <!-- footer will go here-->
-</footer>
-
 </body>
 </html>
