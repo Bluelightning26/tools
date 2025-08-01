@@ -60,9 +60,12 @@ app.post('/api/upload', upload.single('file'), async (req, res) => {
     }
 });
 
-// Root route to serve index.html
+// Root route to serve html files
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
+});
+app.get('/cdn/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'cdn', 'index.html'));
 });
 
 // Serve static files AFTER API routes
