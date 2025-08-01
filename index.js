@@ -11,16 +11,19 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const upload = multer();
 
-// CDN routes to handle relative path issues - BEFORE API routes
+// CDN routes with proper MIME types - BEFORE API routes
 app.get('/cdn/styles.css', (req, res) => {
+    res.setHeader('Content-Type', 'text/css');
     res.sendFile(path.join(__dirname, 'styles.css'));
 });
 
 app.get('/cdn/cdn.css', (req, res) => {
+    res.setHeader('Content-Type', 'text/css');
     res.sendFile(path.join(__dirname, 'cdn', 'cdn.css'));
 });
 
 app.get('/cdn/cdn.js', (req, res) => {
+    res.setHeader('Content-Type', 'application/javascript');
     res.sendFile(path.join(__dirname, 'cdn', 'cdn.js'));
 });
 
