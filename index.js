@@ -60,6 +60,11 @@ app.post('/api/upload', upload.single('file'), async (req, res) => {
     }
 });
 
+// Root route to serve index.html
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
+});
+
 // Serve static files AFTER API routes
 app.use(express.static(__dirname));
 
