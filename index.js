@@ -26,21 +26,30 @@ app.post('/api/upload', upload.single('file'), async (req, res) => {
 
         const buckyResponse = await fetch('https://bucky.hackclub.com/', {
             method: 'POST',
-            body: formData
+            body: formData,
+            headers: {
+                'User-Agent': 'Mozilla/5.0 (compatible; tools.dhyans.xyz)',
+            }
         });
 
+        const responseText = await buckyResponse.text();
+        console.log('Bucky response status:', buckyResponse.status);
+        console.log('Bucky response:', responseText.substring(0, 200));
+
         if (!buckyResponse.ok) {
-            const errorText = await buckyResponse.text();
-            console.error('Bucky error response:', errorText);
-            throw new Error(`Bucky upload failed: ${buckyResponse.status} - ${errorText.substring(0, 100)}`);
+            throw new Error(`Bucky upload failed: ${buckyResponse.status} - Response: ${responseText.substring(0, 100)}`);
         }
 
-        const responseText = await buckyResponse.text();
+        // Check if response looks like HTML (error page)
+        if (responseText.trim().toLowerCase().startsWith('<!doctype') ||
+            responseText.trim().toLowerCase().startsWith('<html') ||
+            responseText.includes('The page c')) {
+            throw new Error('Bucky returned HTML error page instead of URL');
+        }
 
         // Check if response is a valid URL
         if (!responseText.trim() || !responseText.trim().startsWith('http')) {
-            console.error('Invalid Bucky response:', responseText.substring(0, 200));
-            throw new Error('Bucky returned invalid response');
+            throw new Error('Bucky returned invalid response format');
         }
 
         res.json({ url: responseText.trim() });
