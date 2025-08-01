@@ -25,21 +25,26 @@ document.getElementById('cdnBtn').onclick = async function() {
         let urlToUpload;
 
         if (file) {
-            // Upload file to Bucky first
+            // Upload file through your server proxy
             const formData = new FormData();
             formData.append('file', file);
 
-            const buckyResponse = await fetch('https://bucky.hackclub.com/', {
+            const uploadResponse = await fetch('/api/upload', {
                 method: 'POST',
                 body: formData
             });
 
-            if (!buckyResponse.ok) {
-                throw new Error('Failed to upload file to Bucky');
+            if (!uploadResponse.ok) {
+                const errorData = await uploadResponse.json();
+                throw new Error(errorData.error || 'Upload failed');
             }
 
-            const buckyText = await buckyResponse.text();
-            urlToUpload = buckyText.trim();
+            const uploadData = await uploadResponse.json();
+            urlToUpload = uploadData.url;
+
+            if (!urlToUpload || !isValidUrl(urlToUpload)) {
+                throw new Error('Invalid URL returned from upload');
+            }
         } else if (userLink && isValidUrl(userLink)) {
             urlToUpload = userLink;
         } else {
@@ -58,14 +63,15 @@ document.getElementById('cdnBtn').onclick = async function() {
         });
 
         if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
+            const errorText = await response.text();
+            throw new Error(`CDN upload failed: ${response.status} - ${errorText}`);
         }
 
         const data = await response.json();
 
         if (data.files?.[0]?.deployedUrl) {
             const url = data.files[0].deployedUrl;
-            successDiv.innerHTML = `Upload succeeded!<br>CDN URL: <br><a href="${url}" target="_blank">${url}</a> <button id="copyBtn">Copy</button>`;
+            successDiv.innerHTML = `Upload succeeded!<br><div class="link-box">CDN URL:<br><a href="${url}" target="_blank">${url}</a></div><button id="copyBtn">Copy</button>`;
 
             document.getElementById('copyBtn').onclick = function() {
                 navigator.clipboard.writeText(url).then(() => {
@@ -78,6 +84,7 @@ document.getElementById('cdnBtn').onclick = async function() {
         }
     } catch (error) {
         errorDiv.textContent = 'Error: ' + error.message;
+        console.error('Upload error:', error);
     } finally {
         btn.disabled = false;
     }
