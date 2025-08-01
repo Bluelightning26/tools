@@ -30,11 +30,20 @@ app.post('/api/upload', upload.single('file'), async (req, res) => {
         });
 
         if (!buckyResponse.ok) {
-            throw new Error(`Bucky upload failed: ${buckyResponse.status}`);
+            const errorText = await buckyResponse.text();
+            console.error('Bucky error response:', errorText);
+            throw new Error(`Bucky upload failed: ${buckyResponse.status} - ${errorText.substring(0, 100)}`);
         }
 
-        const buckyUrl = await buckyResponse.text();
-        res.json({ url: buckyUrl.trim() });
+        const responseText = await buckyResponse.text();
+
+        // Check if response is a valid URL
+        if (!responseText.trim() || !responseText.trim().startsWith('http')) {
+            console.error('Invalid Bucky response:', responseText.substring(0, 200));
+            throw new Error('Bucky returned invalid response');
+        }
+
+        res.json({ url: responseText.trim() });
 
     } catch (error) {
         console.error('Upload error:', error);
