@@ -11,21 +11,25 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const upload = multer();
 
-// API routes BEFORE static middleware
+// CDN routes to handle relative path issues - BEFORE API routes
+app.get('/cdn/styles.css', (req, res) => {
+    res.sendFile(path.join(__dirname, 'styles.css'));
+});
+
+app.get('/cdn/cdn.css', (req, res) => {
+    res.sendFile(path.join(__dirname, 'cdn', 'cdn.css'));
+});
+
+app.get('/cdn/cdn.js', (req, res) => {
+    res.sendFile(path.join(__dirname, 'cdn', 'cdn.js'));
+});
+
+// API routes AFTER static file routes
 app.post('/api/upload', upload.single('file'), async (req, res) => {
     try {
         if (!req.file) {
             return res.status(400).json({ error: 'No file provided' });
         }
-
-// cdn routes to handle relative path issues
-        app.get('/cdn/styles.css', (req, res) => {
-            res.sendFile(path.join(__dirname, 'styles.css'));
-        });
-
-        app.get('/cdn/cdn.css', (req, res) => {
-            res.sendFile(path.join(__dirname, 'cdn', 'cdn.css'));
-        });
 
         const formData = new FormData();
         formData.append('file', req.file.buffer, {
@@ -49,14 +53,12 @@ app.post('/api/upload', upload.single('file'), async (req, res) => {
             throw new Error(`Bucky upload failed: ${buckyResponse.status} - Response: ${responseText.substring(0, 100)}`);
         }
 
-        // Check if response looks like HTML (error page)
         if (responseText.trim().toLowerCase().startsWith('<!doctype') ||
             responseText.trim().toLowerCase().startsWith('<html') ||
             responseText.includes('The page c')) {
             throw new Error('Bucky returned HTML error page instead of URL');
         }
 
-        // Check if response is a valid URL
         if (!responseText.trim() || !responseText.trim().startsWith('http')) {
             throw new Error('Bucky returned invalid response format');
         }
@@ -69,10 +71,11 @@ app.post('/api/upload', upload.single('file'), async (req, res) => {
     }
 });
 
-// Root route to serve html files
+// HTML routes
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
+
 app.get('/cdn/', (req, res) => {
     res.sendFile(path.join(__dirname, 'cdn', 'index.html'));
 });
