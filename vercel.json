@@ -8,18 +8,6 @@
   ],
   "routes": [
     {
-      "src": "/cdn/styles.css",
-      "dest": "index.js"
-    },
-    {
-      "src": "/cdn/cdn.css",
-      "dest": "index.js"
-    },
-    {
-      "src": "/cdn/cdn.js",
-      "dest": "index.js"
-    },
-    {
       "src": "/(.*)",
       "dest": "index.js"
     }
